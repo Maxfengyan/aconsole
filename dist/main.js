@@ -1,0 +1,1 @@
+(()=>{"use strict";var e;(e=document.createElement("div")).textContent="Hello m-console",document.body.appendChild(e)})();

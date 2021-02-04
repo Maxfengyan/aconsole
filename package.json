@@ -1,0 +1,22 @@
+{
+  "name": "m-console",
+  "version": "0.0.1",
+  "description": "A plugin of simulating console",
+  "main": "index.js",
+  "scripts": {
+    "bundle": "npx webpack"
+  },
+  "keywords": [
+    "console.log",
+    "console",
+    "simulation",
+    "IPTV",
+    "box"
+  ],
+  "author": "Maxma",
+  "license": "ISC",
+  "devDependencies": {
+    "webpack": "^5.20.1",
+    "webpack-cli": "^4.5.0"
+  }
+}
