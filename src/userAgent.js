@@ -436,7 +436,7 @@ function UserAgent(userAgent) {
   } else if (_this.browser == "Yandex") {
     _this.engine = "Blink";
   }
-  return _this
+  return JSON.stringify(_this)
 };
 
 export default UserAgent

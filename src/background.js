@@ -6,25 +6,26 @@
  * * * * * * * * * * * * * * *
  */
 
-function createBackground(backParam) {
+function createBackground(backParam, className) {
   let backObj = typeof backParam === "undefined" ? {} : backParam;
-  let bgcolor = backObj.bgColor || "rgba(85,85,85,.8)";
-  let bgSize = backObj.bgSize || "30%";
-  let bgPosition = backObj.bgPosition || "right";
-  let zIndex = parseInt(backObj.zIndex) || "9999";
-  let fontSize = backObj.fontSize || "1rem";
+  let bgcolor = backObj.bgcolor || "rgba(85,85,85,.8)";
+  let bgSize = backObj.size || "40%";
+  let bgposition = backObj.position || "right";
+  let zIndex = parseInt(backObj.zindex) || "9999";
+  let fontSize = backObj.fontsize || "1rem";
   let color = "#ffffff";
   let padding = backObj.padding || "1px 6px";
+  let id = backObj.id || "console";
+  let parentDom = backObj.parent || "body";
   let bgDom = document.createElement("div");
-  let id = backParam.id || "console";
-  let parentDom = backParam.parent || "body";
 
-  let positionObj = handlePosition(bgPosition, bgSize);
+  let positionObj = handlePosition(bgposition, bgSize);
   for (let key in positionObj) {
     bgDom.style[key] = positionObj[key];
   }
 
   bgDom.setAttribute("id", id);
+  bgDom.setAttribute("class", className);
   bgDom.style.backgroundColor = bgcolor;
   bgDom.style.padding = padding;
   bgDom.style.fontSize = fontSize;
@@ -63,14 +64,13 @@ function createBackground(backParam) {
 }
 
 function handlePosition(position, size) {
-  // 找出填入的值是否符合位置属性标识
   let positionArr = ["left", "right", "top", "bottom"];
-  let bgPosition;
+  let bgposition;
   let bgSize;
   if (!~positionArr.indexOf(position)) {
-    bgPosition = "right";
+    bgposition = "right";
   } else {
-    bgPosition = position;
+    bgposition = position;
   }
 
   if (typeof parseInt(size) !== "number") {
@@ -123,7 +123,7 @@ function handlePosition(position, size) {
       },
     },
   });
-  obj["_" + bgPosition] = bgSize;
+  obj["_" + bgposition] = bgSize;
   return obj;
 }
 

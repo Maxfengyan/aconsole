@@ -34,7 +34,25 @@ const consoleType = {
     level: 1,
     color: "rgba(0, 0, 0, 0.8)",
     backgroundColor: "rgba(255, 35, 35, 0.8)"
-  }
+  },
+  FOCUS: {
+    name: "focus",
+    level: 0,
+    color: "#ffffff",
+    backgroundColor: "rgba(67, 57, 220, 1)"
+  },
+  URL: {
+    name: "debug",
+    level: 5,
+    color: "rgba(0, 0, 0, 0.8)",
+    backgroundColor: "rgba(41, 182, 246, 0.8)"
+  },
+  USERAGENT: {
+    name: "debug",
+    level: 5,
+    color: "rgba(0, 0, 0, 0.8)",
+    backgroundColor: "rgba(41, 182, 246, 0.8)"
+  },
 };
 
 export default consoleType
