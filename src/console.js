@@ -8,18 +8,23 @@
  */
 import logLevel from "./logLevel";
 
-export function printParams(content, level, root, focus) {
+export function printParams(content, level, root, focus, spread) {
   let paramType = handleType(content);
   let paramResult;
+  let htmlStr;
   if (paramType === "Array" || paramType === "Object") {
-    paramResult = JSON.stringify(content);
+    if (spread) {
+      htmlStr = JSON.stringify(content, null, 4);
+      paramResult = htmlStr.replace(/\n/g, '<br>').replace(/\s/g, '&nbsp');
+    } else {
+      paramResult = JSON.stringify(content, null, 4);
+    }
   } else if (~paramType.indexOf("HTML")) {
     paramResult = content.outerHTML;
   } else {
     paramResult = content;
   }
-
-  renderDom(paramResult, level, root, focus);
+  renderDom(paramResult, level, root, focus, spread, paramType);
   return paramResult;
 }
 
@@ -28,15 +33,18 @@ function handleType(param) {
   return paramsType.substring(paramsType.indexOf(" "), paramsType.length - 1).trim();
 }
 
-export function renderDom(content, level, root, focus) {
+export function renderDom(content, level, root, focus, spread, paramType) {
   let contentItem = document.createElement("div");
   let nowDate = new Date();
   let realDate = new Date(nowDate.getTime() - nowDate.getTimezoneOffset() * 60 * 1000).toJSON();
   let findSpot = realDate.indexOf(".");
   let modelDate = realDate.slice(0, findSpot);
+  ~paramType.indexOf("HTML") ? contentItem.textContent = `${modelDate}[${level.name.toUpperCase()}]  ${content}` : contentItem.innerHTML = `${modelDate}[${level.name.toUpperCase()}]  ${content}`;
   // contentItem.innerHTML = `${modelDate}[${level.name.toUpperCase()}]  ${content}`
-  contentItem.textContent = `${modelDate}[${level.name.toUpperCase()}]  ${content}`;
+  // contentItem.textContent = `${modelDate}[${level.name.toUpperCase()}]  ${content}`;
   contentItem.setAttribute("data-level", level.name.toUpperCase())
+  contentItem.setAttribute("data-spread", spread)
+  contentItem.setAttribute("data-type", paramType)
   contentItem.style.marginTop = "3px";
   contentItem.style.marginBottom = "3px";
   contentItem.style.borderRadius = "7px";
