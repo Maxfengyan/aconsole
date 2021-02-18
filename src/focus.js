@@ -22,10 +22,7 @@ function handleFocus(position, root) {
         topDistance = currentDom.getBoundingClientRect().top;
         focusElement.className = "";
         currentDom.className = "focus";
-        console.log(topDistance);
-        console.log(window.innerHeight);
         if (topDistance < 0) {
-          console.log(root)
           root.scrollTop = root.scrollTop - parseInt(getComputedStyle(currentDom).getPropertyValue("height")) - 25;
         }
         renderFocus(focusElement, currentDom);

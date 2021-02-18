@@ -1,12 +1,14 @@
 /**
-* * * * * * * * * * * * * * *
-* author: 马丰彦
-* date: 2021-02-18
-* function: class
-* * * * * * * * * * * * * * *
-*/
-import createBackground from "./background.js";
+ * * * * * * * * * * * * * * *
+ * author: 马丰彦
+ * date: 2021-02-18
+ * function: class
+ * * * * * * * * * * * * * * *
+ */
 import { printParams } from "./console.js";
+import { handleClearAll, handleClearItem } from "./clear.js";
+import handleBind from "./query.js";
+import createBackground from "./background.js";
 import logLevel from "./logLevel.js";
 import UserAgent from "./userAgent.js";
 import staticPrint from "./staticPrint.js";
@@ -15,10 +17,35 @@ import toggleSpread from "./spreadOrshrink.js";
 // create class
 class Mconsole {
   constructor(params) {
+    let that = this;
     this.logArr = [];
+    this.count = 0;
     this.focus = params ? params.focus || false : false;
     this.spread = params ? params.spread || false : false;
-    this.createBg(params);
+    // init
+    let _onload = function () {
+      that.createBg(params);
+    };
+
+    if (document !== undefined) {
+      if (document.readyState === "loading") {
+        handleBind(window, "DOMContentLoaded", _onload);
+      } else {
+        _onload();
+      }
+    } else {
+      // if document does not exist, wait for it
+      let timer;
+      let pollingDocument = function() {
+        if (!!document && document.readyState === "complete") {
+          timer && clearTimeout(timer)
+          _onload()
+        } else {
+          timer = setTimeout(pollingDocument, 1);
+        }
+      }
+      timer = setTimeout(pollingDocument, 1);
+    }
     this.print(window.location ? window.location.href : "not browser environment", { name: "URL" });
     this.print(UserAgent(), { name: "UserAgent" });
     this.log({ name: "xiaoming", age: "23", love: "baseball", numz: [12, 344, 565, 4353], single: { aa: 123, cc: 123123, dd: [123, 13, 4, 343] } });
@@ -28,6 +55,10 @@ class Mconsole {
     this.info(window.location ? window.location.href : "not browser environment");
     this.warn(window.location ? window.location.href : "not browser environment");
     this.error(window.location ? window.location.href : "not browser environment");
+  }
+
+  static printError(errorMessage) {
+    staticPrint(errorMessage, Mconsole.className);
   }
 
   // init background
@@ -47,11 +78,9 @@ class Mconsole {
 
   // print log
   print(content, level) {
-    this.logArr.push(printParams(content, level, this.root, this.focus, this.spread));
-  }
-
-  static printError(errorMessage) {
-    staticPrint(errorMessage, Mconsole.className);
+    // this.logArr.push(printParams(content, level, this.root, this.focus, this.spread));
+    printParams(content, level, this.root, this.focus, this.spread, this.count);
+    this.count = this.count + 1;
   }
 
   trace(input) {
@@ -99,33 +128,13 @@ class Mconsole {
 
   // clear input log
   clearAll() {
-    this.root ? (this.root.innerHTML = "") : null;
+    handleClearAll(this.root);
   }
 
   // clear single
   clear() {
-    let currentDom = document.getElementsByClassName("focus")[0];
-    let targetDom;
-    if (currentDom && currentDom.previousSibling) {
-      targetDom = currentDom.previousSibling;
-      currentDom.previousSibling.setAttribute("class", "focus");
-    } else if (currentDom && currentDom.nextSibling) {
-      targetDom = currentDom.nextSibling;
-      currentDom.nextSibling.setAttribute("class", "focus");
-    } else {
-    }
-    if (targetDom) {
-      targetDom.style.backgroundColor = logLevel.FOCUS.backgroundColor;
-      targetDom.style.color = logLevel.FOCUS.color;
-      targetDom.style.transform = "scale(1.02)";
-      targetDom.style["-webkit-transform"] = "scale(1.02)";
-      targetDom.style["-moz-transform"] = "scale(1.02)";
-      targetDom.style["-o-transform"] = "scale(1.02)";
-      targetDom.style["-ms-transform"] = "scale(1.02)";
-    }
-    if (currentDom) {
-      this.root.removeChild(currentDom);
-    }
+    handleClearItem(document.getElementsByClassName("focus")[0], this.root);
+    this.count = this.count > 0 ? this.count - 1 : 0;
   }
 
   // page down
@@ -147,7 +156,7 @@ class Mconsole {
 
   // focus up
   moveUp() {
-    if ((this.focus, this.root)) {
+    if (this.focus) {
       handleFocus("up", this.root);
     }
   }
@@ -181,19 +190,13 @@ let obj = {
 
 let _mconsole = new Mconsole({ focus: true, spread: true });
 _mconsole.show();
-/*
-_mconsole.log(true)
-_mconsole.log(undefined)
-_mconsole.log(null)
-_mconsole.log(document.createElement("div"))
-_mconsole.log(document.createElement("span"))
-_mconsole.log(document.getElementsByTagName("div")) */
+
 document.addEventListener("keydown", function (event) {
   let code = event.keyCode;
   if (code == 13) {
     // _mconsole.clearAll();
-    // _mconsole.toggle();
-    _mconsole.clear();
+    _mconsole.toggle();
+    // _mconsole.clear();
   }
   if (code == 32) {
     _mconsole.log(document.createElement("div"), 2);

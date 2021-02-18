@@ -8,7 +8,7 @@
  */
 import logLevel from "./logLevel";
 
-export function printParams(content, level, root, focus, spread) {
+export function printParams(content, level, root, focus, spread, count) {
   let paramType = handleType(content);
   let paramResult;
   let htmlStr;
@@ -24,16 +24,17 @@ export function printParams(content, level, root, focus, spread) {
   } else {
     paramResult = content;
   }
-  renderDom(paramResult, level, root, focus, spread, paramType);
+  renderDom(paramResult, level, root, focus, spread, paramType, count);
   return paramResult;
 }
 
 function handleType(param) {
-  let paramsType = Object.prototype.toString.call(param);
-  return paramsType.substring(paramsType.indexOf(" "), paramsType.length - 1).trim();
+  // let paramsType = Object.prototype.toString.call(param);
+  // return paramsType.substring(paramsType.indexOf(" "), paramsType.length - 1).trim();
+  return Object.prototype.toString.call(param).replace('[object ', '').replace(']', '');
 }
 
-export function renderDom(content, level, root, focus, spread, paramType) {
+export function renderDom(content, level, root, focus, spread, paramType, count) {
   let contentItem = document.createElement("div");
   let nowDate = new Date();
   let realDate = new Date(nowDate.getTime() - nowDate.getTimezoneOffset() * 60 * 1000).toJSON();
@@ -60,8 +61,8 @@ export function renderDom(content, level, root, focus, spread, paramType) {
   contentItem.style["-ms-transition"] = "transform ease 0.5s";
   contentItem.style.opacity = "1";
   // focus model
-  if (focus && level.name === "URL") {
-    contentItem.focus()
+  if (focus && (level.name === "URL" || count === 0)) {
+    // contentItem.focus()
     contentItem.setAttribute("class", "focus")
     contentItem.style.backgroundColor = logLevel.FOCUS.backgroundColor;
     contentItem.style.color = logLevel.FOCUS.color;
