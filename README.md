@@ -22,10 +22,14 @@ A lightweight tool of simulating console for STB(no console and alert environmen
 - [x] UserAgent
 
 ## Usage
+
+Download the [release](https://github.com/Maxfengyan/aconsole/releases/download/0.0.1/aconsole.min.js)
+
+or
+
 ```
 npm install aconsole
 ```
-
 Import dist/aconsole.min.js to your project:
 
 ```html

@@ -9,11 +9,11 @@
   <script src="aconsole.min.js"></script></body>
 </html>
 <script>
-  let _mconsole = new Aconsole({ focus: true, spread: true });
+  var _mconsole = new Aconsole({ focus: true, spread: true });
   _mconsole.show();
 
   document.addEventListener("keydown", function (event) {
-    let code = event.keyCode;
+    var code = event.keyCode;
     if (code == 13) {
       // _mconsole.clearAll();
       _mconsole.toggle();

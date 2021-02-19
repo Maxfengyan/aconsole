@@ -19,6 +19,11 @@ aconsole
 - [x] 输出UserAgent
 
 ## 使用
+
+直接下载 [release](https://github.com/Maxfengyan/aconsole/releases/download/0.0.1/aconsole.min.js)
+
+或者
+
 ```
 npm install aconsole
 ```
