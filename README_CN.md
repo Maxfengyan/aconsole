@@ -1,9 +1,9 @@
 aconsole
 ==============================
 
-一个轻量级的模拟console输出工具用于机顶盒（没用console以及alert环境下）
+## 一个轻量级的模拟console输出工具便于调试机顶盒以及查看输出信息（STB B/S架构下厂商屏蔽掉了console以及alert方法）
 
-## 贡献者以及初始构思人: [gongxw](https://github.com/gongxw)
+鸣谢 [gongxw](https://github.com/gongxw)的帮助
 ## 特点
 
 - 查看console输出
@@ -13,6 +13,7 @@ aconsole
 
 - [x] 自定义日志输出背景颜色，位置，大小以及优先级等
 - [x] 自定义日志输出文字大小，支持聚焦模式，日志翻页，对象格式化展现便于查看
+- [x] 自动区分输入日志类型
 - [x] 捕捉js执行错误并输出
 - [x] 清除日志功能
 - [x] 隐藏以及显示日志
@@ -33,7 +34,7 @@ npm install aconsole
 ```html
 <script src="path/to/aconsole.min.js"></script>
 <script>
-  // init vConsole
+  // init Aconsole
   
   var _aconsole = new Aconsole();
   _aconsole.show()

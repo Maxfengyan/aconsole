@@ -3,9 +3,9 @@ English | [简体中文](./README_CN.md)
 aconsole
 ==============================
 
-A lightweight tool of simulating console for STB(no console and alert environment)
+## A lightweight tool of simulating console for STB to look over log info(STB B/S no console and alert methods)
 
-## contributor and initial conception: [gongxw](https://github.com/gongxw)
+appreciate [gongxw`s](https://github.com/gongxw) assistance 
 
 ## Features
 
@@ -16,6 +16,7 @@ A lightweight tool of simulating console for STB(no console and alert environmen
 
 - [x] custom background: color, position, size, z-index)
 - [x] custom log: fontsize, focus model, page turning, object formatting
+- [x] distinguish input log type automatically
 - [x] catch error
 - [x] clear && clearAll
 - [x] show && hide
@@ -35,7 +36,7 @@ Import dist/aconsole.min.js to your project:
 ```html
 <script src="path/to/aconsole.min.js"></script>
 <script>
-  // init vConsole
+  // init Aconsole
   
   var _aconsole = new Aconsole();
   _aconsole.show()
