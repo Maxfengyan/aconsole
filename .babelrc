@@ -1,0 +1,28 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "modules": "umd",
+        "targets": {
+          "ie": "9",
+          "chrome": "1",
+          "firefox": "1",
+          "safari": "1",
+          "android": "1"
+        }
+      }
+    ]
+  ],
+  "plugins": [
+    [
+      "@babel/plugin-proposal-class-properties",
+      {
+        "loose": true
+      }
+    ],
+    "@babel/plugin-proposal-export-namespace-from",
+    "@babel/plugin-proposal-object-rest-spread",
+    "add-module-exports"
+  ]
+}

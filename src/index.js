@@ -20,11 +20,15 @@ class Mconsole {
     let that = this;
     this.logArr = [];
     this.count = 0;
+    this.status = false;
     this.focus = params ? params.focus || false : false;
     this.spread = params ? params.spread || false : false;
     // init
     let _onload = function () {
       that.createBg(params);
+      that.status = true;
+      that.print(window.location ? window.location.href : "not browser environment", { name: "URL" });
+      that.print(UserAgent(), { name: "UserAgent" });
     };
 
     if (document !== undefined) {
@@ -36,17 +40,17 @@ class Mconsole {
     } else {
       // if document does not exist, wait for it
       let timer;
-      let pollingDocument = function() {
+      let pollingDocument = function () {
         if (!!document && document.readyState === "complete") {
-          timer && clearTimeout(timer)
-          _onload()
+          timer && clearTimeout(timer);
+          _onload();
         } else {
           timer = setTimeout(pollingDocument, 1);
         }
-      }
+      };
       timer = setTimeout(pollingDocument, 1);
     }
-    this.print(window.location ? window.location.href : "not browser environment", { name: "URL" });
+    /* this.print(window.location ? window.location.href : "not browser environment", { name: "URL" });
     this.print(UserAgent(), { name: "UserAgent" });
     this.log({ name: "xiaoming", age: "23", love: "baseball", numz: [12, 344, 565, 4353], single: { aa: 123, cc: 123123, dd: [123, 13, 4, 343] } });
     this.trace(window.location ? window.location.href : "not browser environment");
@@ -54,7 +58,7 @@ class Mconsole {
     this.log(window.location ? window.location.href : "not browser environment");
     this.info(window.location ? window.location.href : "not browser environment");
     this.warn(window.location ? window.location.href : "not browser environment");
-    this.error(window.location ? window.location.href : "not browser environment");
+    this.error(window.location ? window.location.href : "not browser environment"); */
   }
 
   static printError(errorMessage) {
@@ -68,7 +72,17 @@ class Mconsole {
 
   // show
   show() {
-    this.root ? (this.root.style.display = "block") : null;
+    let timer;
+    let that = this;
+    let pollingDocument = function () {
+      if (that.status) {
+        timer && clearTimeout(timer);
+        that.root.style.display = "block"
+      } else {
+        timer = setTimeout(pollingDocument, 1);
+      }
+    };
+    timer = setTimeout(pollingDocument, 1);
   }
 
   // hide
@@ -78,9 +92,24 @@ class Mconsole {
 
   // print log
   print(content, level) {
+    let that = this;
     // this.logArr.push(printParams(content, level, this.root, this.focus, this.spread));
-    printParams(content, level, this.root, this.focus, this.spread, this.count);
-    this.count = this.count + 1;
+    if (this.status) {
+      printParams(content, level, this.root, this.focus, this.spread, this.count);
+      this.count = this.count + 1;
+    } else {
+      let timer;
+      let pollingDocument = function () {
+        if (that.status) {
+          timer && clearTimeout(timer);
+          printParams(content, level, that.root, that.focus, that.spread, that.count);
+          that.count = that.count + 1;
+        } else {
+          timer = setTimeout(pollingDocument, 1);
+        }
+      };
+      timer = setTimeout(pollingDocument, 1);
+    }
   }
 
   trace(input) {
@@ -129,6 +158,7 @@ class Mconsole {
   // clear input log
   clearAll() {
     handleClearAll(this.root);
+    this.count = 0;
   }
 
   // clear single
@@ -175,44 +205,5 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
   let message = msg + " in " + "(" + url + " line " + lineNo + ")";
   Mconsole.printError(message);
 };
-
-let obj = {
-  position: "left",
-  size: "50%",
-  id: "console",
-  parent: "body",
-  focus: true,
-  zindex: 9999,
-  spread: true,
-  fontsize: "30px",
-  bgcolor: "rgba(85,85,85,.8)",
-};
-
-let _mconsole = new Mconsole({ focus: true, spread: true });
-_mconsole.show();
-
-document.addEventListener("keydown", function (event) {
-  let code = event.keyCode;
-  if (code == 13) {
-    // _mconsole.clearAll();
-    _mconsole.toggle();
-    // _mconsole.clear();
-  }
-  if (code == 32) {
-    _mconsole.log(document.createElement("div"), 2);
-  }
-  if (code == 34) {
-    _mconsole.pageDown();
-  }
-  if (code == 33) {
-    _mconsole.pageUp();
-  }
-  if (code == 40) {
-    _mconsole.moveDown();
-  }
-  if (code == 38) {
-    _mconsole.moveUp();
-  }
-});
 
 export default Mconsole;

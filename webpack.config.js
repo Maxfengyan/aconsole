@@ -5,17 +5,31 @@ const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 module.exports = {
   mode: "production",
   entry: "./src/index.js",
-  devtool: 'inline-source-map',
+  // devtool: 'inline-source-map',
+  devtool: false,
   output: {
     path: path.resolve(__dirname, "dist"),
-    filename: "main.js",
+    filename: 'aconsole.min.js',
+    library: 'Aconsole',
+    libraryTarget: 'umd',
+    umdNamedDefine: true
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        loader: 'babel-loader'
+      }
+    ]
   },
   plugins: [
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: "test",
       filename: "test.html",
-      template: './src/test.html'
+      template: "./src/test.html",
+      scriptLoading: "blocking",
+      minify: false
     }),
   ],
   devServer: {

@@ -20,7 +20,6 @@ function toggleSpread(target) {
       resultInfo = text.substring(0, firstIndex);
       target.setAttribute("data-spread", false);
       target.innerHTML = resultInfo + resultObj.replace(/&nbsp;/g, ' ').replace(/<br>/g, '\n');
-      console.log(target.innerHTML)
     }
   }
 }
