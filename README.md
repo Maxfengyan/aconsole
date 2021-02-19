@@ -33,7 +33,7 @@ Import dist/aconsole.min.js to your project:
 <script>
   // init vConsole
   
-  var _aconsole = new aconsole();
+  var _aconsole = new Aconsole();
   _aconsole.show()
   _aconsole.log("hello world") 
   _aconsole.trace("hello world") 
@@ -81,7 +81,7 @@ var options = {
   spread: true, // defaul: false
   bgcolor: "rgba(85,85,85,.8)",
 }
-new aconsole(options) // unnecessarily
+new Aconsole(options) // unnecessarily
 ```
 
 ## all methods

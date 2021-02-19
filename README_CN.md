@@ -23,14 +23,14 @@ aconsole
 npm install aconsole
 ```
 
-引入ist/aconsole.min.js到你的项目中
+引入dist/aconsole.min.js到你的项目中
 
 ```html
 <script src="path/to/aconsole.min.js"></script>
 <script>
   // init vConsole
   
-  var _aconsole = new aconsole();
+  var _aconsole = new Aconsole();
   _aconsole.show()
   _aconsole.log("hello world") 
   _aconsole.trace("hello world") 
@@ -78,7 +78,7 @@ var options = {
   spread: true, // 默认: false
   bgcolor: "rgba(85,85,85,.8)",
 }
-new aconsole(options) // unnecessarily
+new Aconsole(options) // unnecessarily
 ```
 
 ## 所有方法

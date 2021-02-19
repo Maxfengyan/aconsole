@@ -2,7 +2,7 @@
   "name": "aconsole",
   "version": "0.0.1",
   "description": "A lightweight tool of simulating console for STB(no console and alert environment)",
-  "main": "index.js",
+  "main": "dist/aconsole.min.js",
   "homepage": "https://github.com/Maxfengyan/aconsole",
   "scripts": {
     "bundle": "npx webpack",
